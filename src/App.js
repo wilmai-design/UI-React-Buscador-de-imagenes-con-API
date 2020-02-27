@@ -1,10 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import Formulario from './components/Formulario';
+import ListadoImagenes from './components/ListadoImagenes';
+
+//React Router
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Home } from './pages/Home';
+import { About } from './pages/About';
+import { Contact } from './pages/Contact';
+import { NoMatch } from './pages/NoMatch';
+import { Layout } from './components/Layout';
+import { NavigationBar } from './components/NavigationBar';
 
 function App() {
 
-  //state de la ap
+  //state de la app
   const [ busqueda, guardarBusqueda ] = useState('');
+  const [ imagenes, guardarImagenes ] = useState([]);
 
   useEffect(() => {
     const consultarApi = async () => {
@@ -18,7 +29,7 @@ function App() {
       const resultado = await respuesta.json();
 
       //console.log(resultado.hits);
-      guardarBusqueda(resultado.hits);
+      guardarImagenes(resultado.hits);
 
     }
     consultarApi();
@@ -28,12 +39,35 @@ function App() {
 
   return (
     <div className="container">
+
+      <React.Fragment>
+        <NavigationBar />
+
+        <Layout>
+          <Router>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/about" component={About} />
+              <Route path="/contact" component={Contact} />
+              <Route component={NoMatch} />
+            </Switch>
+          </Router>
+        </Layout>
+      </React.Fragment>
+
       <div className="jumbotron">
         <p className="lead text-center">Buscador de Imágenes</p>
 
         <Formulario 
           guardarBusqueda={guardarBusqueda}
         />
+
+        <div className="row justify-content-center">
+          <ListadoImagenes 
+            imagenes={imagenes}
+          />
+        </div>
+
       </div>
     </div>
   );
