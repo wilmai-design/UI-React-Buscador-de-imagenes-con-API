@@ -5,15 +5,21 @@ import Logo from '../assets/Logo.png';
 
 const Styles = styled.div`
     .navbar {
-        background-color: #222;
+        background-color: #fff;
     }
 
     .navbar-brand, .navbar-nav .nav-link {
-        color: #bbb;
+        color: #222;
+        transition: .4s;
 
         &:hover {
-            color: white;
+            color: #222;
+            opacity: .5;
         }
+    }
+
+    .navbar-toggler {
+        border: 0px solid transparent;
     }
 `;
 
